@@ -1,0 +1,78 @@
+### Notes
+#
+# - using the 'build' config instead of 'image' allows to build the stack with just 'docker-compose build'
+# - SYS_PTRACE capability is needed to allow the containers to read /proc/$PID, which is needed by init scripts
+# - The docker-compose 'service' name corresponds to the top-level yml keys
+# - The container name is used in most 'docker' commands (Ex : docker exec -ti lethak_cli su site)
+#  Keeping a separate container name for each project allows to run many container platforms in parallel
+# - The hostname key is used by Docker internal DNS to reach other containers
+#
+version: "2.2"
+services:
+    web:
+        image: lethak/apache:7.1
+        hostname: web
+        container_name: lethak_web
+        ports:
+            - "88:88"
+        volumes:
+            - "~/www:/var/www:rw"
+            - "./startup.sh:/run/startup.sh:ro"
+        env_file:
+            - .env
+        cap_add:
+            - SYS_PTRACE
+        networks:
+            - dev_stack
+        extra_hosts:
+            - "customer_api:162.242.195.82"
+
+    cli:
+        image: lethak/php_cli:7.1
+        hostname: cli
+        container_name: lethak_cli
+        privileged: true
+        user: ${DEV_UID:-1000}:${DEV_GID:-1000}
+        volumes:
+            - "$SSH_AUTH_SOCK:/ssh-agent:ro"
+            - "~/.gitconfig:/home/site/.gitconfig:ro"
+            - "~/.ssh/config:/home/site/.ssh/config:ro"
+            - "~/www:/var/www:rw"
+        environment:
+            - SSH_AUTH_SOCK=/ssh-agent
+            - TERM=xterm-color
+        cap_add:
+            - SYS_PTRACE
+        networks:
+            - dev_stack
+
+    memcached:
+        image: lethak/memcached
+        hostname:  memcached
+        container_name: lethak_memcached
+        cap_add:
+            - SYS_PTRACE
+        networks:
+            - dev_stack
+
+    mysql:
+        image: lethak/mysql
+        hostname: mysql
+        container_name: lethak_mysql
+        ports:
+            - "3307:3306"
+        env_file:
+            - docker-compose.env
+        cap_add:
+            - SYS_PTRACE
+        command: ["/root/bootstrap.sh", "mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci"]
+        networks:
+            - dev_stack
+
+networks:
+    dev_stack:
+        ipam:
+          driver: default
+          config:
+          -
+            subnet: 172.17.0.0/24
