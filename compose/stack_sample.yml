@@ -9,12 +9,28 @@
 #
 version: "2.2"
 services:
-    web:
+    web_apache:
         image: lethak/apache:7.1
-        hostname: web
-        container_name: lethak_web
+        hostname: web_apache
+        container_name: lethak_web_apache
         ports:
             - "88:88"
+        volumes:
+            - "~/www:/var/www:rw"
+            - "./startup.sh:/run/startup.sh:ro"
+        env_file:
+            - .env
+        cap_add:
+            - SYS_PTRACE
+        networks:
+            - my_dev_stack
+        extra_hosts:
+            - "customer_api:162.242.195.82"
+
+    web_nginx:
+        image: lethak/nginx:7.1
+        hostname: web_nginx
+        container_name: lethak_web_nginx
         volumes:
             - "~/www:/var/www:rw"
             - "./startup.sh:/run/startup.sh:ro"

@@ -19,6 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     pwgen \
     sudo \
     nano \
+    vim \
     unzip \
     locales \
     imagemagick \
@@ -88,14 +89,14 @@ RUN rm /etc/nginx/sites-enabled/default && \
     curl -L -o /etc/nginx/sites-enabled/010-default https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/nginx/vhosts/010-default && \
     curl -L -o /etc/nginx/conf.d/010-controlpanel.conf https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/nginx/vhosts/controlpanel.conf
 
-RUN curl -L -o /tmp/controlpanel.tar.gz https://github.com/lethak-docker/webplatform/raw/master/build_files/controlpanel.tar.gz && \
-    tar -zxf /tmp/controlpanel.tar.gz -C /home/site/ && \
-    rm /tmp/controlpanel.tar.gz
+#RUN curl -L -o /tmp/controlpanel.tar.gz https://github.com/lethak-docker/webplatform/raw/master/build_files/controlpanel.tar.gz && \
+#    tar -zxf /tmp/controlpanel.tar.gz -C /home/site/ && \
+#    rm /tmp/controlpanel.tar.gz
 
 # Run composer install for phpmemadmin vendors
-RUN cd /home/site/controlpanel/phpmemadmin && \
-    curl -sS https://getcomposer.org/installer | php -- && \
-    php composer.phar install --no-dev --ignore-platform-reqs
+#RUN cd /home/site/controlpanel/phpmemadmin && \
+#    curl -sS https://getcomposer.org/installer | php -- && \
+#    php composer.phar install --no-dev --ignore-platform-reqs
     
 # dynamic vhosts
 # a2ensite is run in bootstrap.sh for these as they could also be mounted as volume at run time
@@ -111,6 +112,8 @@ RUN curl -L -o /etc/nginx/sites-enabled/001-unique-vhost https://raw.githubuserc
 # Clear archives in apt cache folder
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN curl -o /root/nginx_modsite.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/nginx/nginx_modsite.sh && \
+    chmod 755 /root/nginx_modsite.sh
 
 RUN curl -o /root/bootstrap.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/nginx/nginx_bootstrap.sh && \
     chmod 755 /root/bootstrap.sh

@@ -19,6 +19,7 @@ RUN apt-get update && \
 		php5-gd \
 		php5-xmlrpc \
 		php5-memcached \
+		php5-redis \
 		php5-xdebug
 
 # PHP config

@@ -29,6 +29,7 @@ RUN apt-get update && \
     php7.1-gd \
     php7.1-xmlrpc \
     php7.1-memcached \
+    php7.1-redis \
     php7.1-xdebug \
     php7.1-mbstring
 
