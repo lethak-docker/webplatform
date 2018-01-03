@@ -55,6 +55,9 @@ services:
         networks:
             - my_dev_stack
 
+    #########
+    # MySQL #
+    #########
     mysql:
         image: lethak/mysql:5.6
         hostname: mysql
@@ -71,86 +74,108 @@ services:
         networks:
             - my_dev_stack
 
-    # RabbitMQ Cluster (node 1/2)
+    ####################
+    # RabbitMQ Cluster #
+    ####################
+
+    # node 1/2
     rabbitmq_1:
         environment:
-          - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
+            - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
         networks:
-          - my_dev_stack
+            - my_dev_stack
         hostname: rabbitmq_1
         container_name: lethak_rabbitmq_1
         image: "rabbitmq:3.7.2-management"
         ports:
-          - "15672:15672"
-          - "5672:5672"
+            - "15672:15672"
+            - "5672:5672"
         tty: true
         volumes:
-          - "rabbit1:/var/lib/rabbitmq"
-          - "./config/rabbitmq/:/etc/rabbitmq/"
+            - "rabbit1:/var/lib/rabbitmq"
+            - "./config/rabbitmq/:/etc/rabbitmq/"
         command:  bash -c "sleep 10; rabbitmq-server;"
 
-    # RabbitMQ Cluster (node 2/2)
+    # node 2/2
     rabbitmq_2:
         environment:
-          - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
+            - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
         networks:
-          - my_dev_stack
+            - my_dev_stack
         hostname: rabbitmq_2
         container_name: lethak_rabbitmq_2
         depends_on:
-          - rabbitmq_1
+            - rabbitmq_1
         image: "rabbitmq:3.7.2-management"
         ports:
-          - "15673:15672"
-          - "5673:5672"
+            - "15673:15672"
+            - "5673:5672"
         tty: true
         volumes:
-          - "rabbit2:/var/lib/rabbitmq"
-          - "./conf/:/etc/rabbitmq/"
+            - "rabbit2:/var/lib/rabbitmq"
+            - "./conf/:/etc/rabbitmq/"
         command:  bash -c "sleep 10; rabbitmq-server;"
 
-    # Elasticsearch Cluster (node 1/2)
+    #########################
+    # Elasticsearch Cluster #
+    #########################
+
+    # node 1/2
     elasticsearch_1:
         image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
         hostname: elasticsearch_1
         container_name: lethak_elasticsearch_1
         environment:
-          - cluster.name=docker-cluster
-          - bootstrap.memory_lock=true
-          - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
         ulimits:
-          memlock:
-            soft: -1
-            hard: -1
+            memlock:
+                soft: -1
+                hard: -1
         volumes:
-          - "./data/elasticsearch/node_1:/usr/share/elasticsearch/data"
-#          - "./config/elasticsearch/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+            - "./data/elasticsearch/node_1:/usr/share/elasticsearch/data"
+#            - "./config/elasticsearch/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
         ports:
-          - 9200:9200
+            - 9200:9200
         networks:
-          - my_dev_stack
+            - my_dev_stack
         user: ${DEV_UID:-1000}:${DEV_GID:-1000}
 
-    # Elasticsearch Cluster (node 2/2)
+    # node 2/2
     elasticsearch_2:
         hostname: elasticsearch_2
         image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
         container_name: lethak_elasticsearch_2
         environment:
-          - cluster.name=docker-cluster
-          - bootstrap.memory_lock=true
-          - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
-          - "discovery.zen.ping.unicast.hosts=elasticsearch"
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+            - "discovery.zen.ping.unicast.hosts=elasticsearch"
         ulimits:
-          memlock:
-            soft: -1
-            hard: -1
+            memlock:
+                soft: -1
+                hard: -1
         volumes:
-          - "./data/elasticsearch/node_2:/usr/share/elasticsearch/data"
-#          - "./config/elasticsearch/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+            - "./data/elasticsearch/node_2:/usr/share/elasticsearch/data"
+#            - "./config/elasticsearch/custom_elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
         networks:
-          - my_dev_stack
+            - my_dev_stack
         user: ${DEV_UID:-1000}:${DEV_GID:-1000}
+
+    ##########
+    # Redis  #
+    ##########
+
+    redis:
+        image: redis:4
+        container_name: lethak_redis
+        networks:
+            - my_dev_stack
+
+############
+# NETWORKS #
+############
 
 networks:
     my_dev_stack:
