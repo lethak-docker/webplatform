@@ -82,9 +82,9 @@ RUN curl -L -o /etc/apache2/sites-available/010-default.conf https://raw.githubu
     cat /tmp/010-controlpanel.conf >> /etc/apache2/apache2.conf && \
     rm /tmp/010-controlpanel.conf
 
-RUN curl -L -o /tmp/controlpanel.tar.gz https://github.com/lethak-docker/webplatform/raw/master/build_files/controlpanel.tar.gz && \
-    tar -zxf /tmp/controlpanel.tar.gz -C /home/site/ && \
-    rm /tmp/controlpanel.tar.gz
+#RUN curl -L -o /tmp/controlpanel.tar.gz https://github.com/lethak-docker/webplatform/raw/master/build_files/controlpanel.tar.gz && \
+#    tar -zxf /tmp/controlpanel.tar.gz -C /home/site/ && \
+#    rm /tmp/controlpanel.tar.gz
 
 RUN  a2dissite 000-default && \
      a2ensite 010-default.conf
@@ -96,9 +96,9 @@ RUN curl -L -o /etc/apache2/sites-available/001-dynamic-vhost-ez5.conf https://r
     curl -L -o /etc/apache2/sites-available/ez5-common.conf https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/apache/vhosts/ez5-common.conf
 
 # Run composer install for phpmemadmin vendors
-RUN cd /home/site/controlpanel/phpmemadmin && \
-    curl -sS https://getcomposer.org/installer | php -- && \
-    php composer.phar install --no-dev --ignore-platform-reqs
+#RUN cd /home/site/controlpanel/phpmemadmin && \
+#    curl -sS https://getcomposer.org/installer | php -- && \
+#    php composer.phar install --no-dev --ignore-platform-reqs
 
 # Clear archives in apt cache folder
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

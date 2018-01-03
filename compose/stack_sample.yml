@@ -23,7 +23,7 @@ services:
         cap_add:
             - SYS_PTRACE
         networks:
-            - dev_stack
+            - my_dev_stack
         extra_hosts:
             - "customer_api:162.242.195.82"
 
@@ -44,7 +44,7 @@ services:
         cap_add:
             - SYS_PTRACE
         networks:
-            - dev_stack
+            - my_dev_stack
 
     memcached:
         image: lethak/memcached
@@ -53,10 +53,10 @@ services:
         cap_add:
             - SYS_PTRACE
         networks:
-            - dev_stack
+            - my_dev_stack
 
     mysql:
-        image: lethak/mysql
+        image: lethak/mysql:5.6
         hostname: mysql
         container_name: lethak_mysql
         ports:
@@ -67,10 +67,46 @@ services:
             - SYS_PTRACE
         command: ["/root/bootstrap.sh", "mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci"]
         networks:
-            - dev_stack
+            - my_dev_stack
+
+    # RabbitMQ Cluster (node 1/2)
+    rabbitmq_1:
+        environment:
+          - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
+        networks:
+          - my_dev_stack
+        hostname: rabbitmq_1
+        image: "rabbitmq:3.7.2-management"
+        ports:
+          - "15672:15672"
+          - "5672:5672"
+        tty: true
+        volumes:
+          - rabbit1:/var/lib/rabbitmq
+          - ./conf/:/etc/rabbitmq/
+        command:  bash -c "sleep 10; rabbitmq-server;"
+
+    # RabbitMQ Cluster (node 2/2)
+    rabbitmq_2:
+        environment:
+          - RABBITMQ_ERLANG_COOKIE='my_secret_cookie'
+        networks:
+          - my_dev_stack
+        hostname: rabbitmq_2
+        depends_on:
+          - rabbitmq_1
+        image: "rabbitmq:3.7.2-management"
+        ports:
+          - "15673:15672"
+          - "5673:5672"
+        tty: true
+        volumes:
+          - rabbit2:/var/lib/rabbitmq
+          - ./conf/:/etc/rabbitmq/
+        command:  bash -c "sleep 10; rabbitmq-server;"
 
 networks:
-    dev_stack:
+    my_dev_stack:
         ipam:
           driver: default
           config:
