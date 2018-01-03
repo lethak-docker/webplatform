@@ -12,6 +12,7 @@ Available software packages are:
 * GIT
 * Curl
 * Vim
+* Nano
 * Cron
 * Mysql client
 * JAVA (OpenJDK 7)

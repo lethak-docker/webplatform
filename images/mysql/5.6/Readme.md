@@ -20,6 +20,6 @@ More docs at: https://hub.docker.com/_/mysql/
 You can run the container with the docker run command :
 
 
-	``` sh
-    docker run -p 3307:3306 lethak/mysql:5.6
-	```
+```sh
+docker run -p 3307:3306 lethak/mysql:5.6
+```
