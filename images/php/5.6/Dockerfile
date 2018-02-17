@@ -10,6 +10,7 @@ RUN apt-get update && \
     curl \
     php5 \
     php5-readline \
+    php5-bcmath \
     php5-mysqlnd \
     php5-json \
     php5-xsl \

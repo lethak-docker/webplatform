@@ -14,6 +14,7 @@ RUN apt-get update && \
 		php5-xsl \
 		php5-intl \
 		php5-mcrypt \
+		php5-bcmath \
 		php5-curl \
 		php5-imagick \
 		php5-gd \

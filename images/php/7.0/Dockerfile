@@ -21,6 +21,7 @@ RUN apt-get update && \
     curl \
     php7.0 \
     php7.0-readline \
+    php7.0-bcmath \
     php7.0-mysql \
     php7.0-json \
     php7.0-xsl \
