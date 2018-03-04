@@ -1,4 +1,4 @@
-# Nginx/php 7.1 web server
+# Nginx/php 7.2 web server
 
 This image runs the Nginx & php-fpm services.
 
@@ -7,7 +7,7 @@ Image is built on Debian Jessie.
 The main software packages installed are:
 
 * Nginx 1.12
-* PHP 7.1
+* PHP 7.2
 
 
 ## Nginx config
@@ -47,5 +47,5 @@ You can run the container with the docker run command :
 
 
 	``` sh
-    docker run -p 80:80 -p 82:82 -p 88:88 lethak/nginx:7.1
+    docker run -p 80:80 -p 82:82 -p 88:88 lethak/nginx:7.2
     ```

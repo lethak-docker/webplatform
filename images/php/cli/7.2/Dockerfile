@@ -1,7 +1,7 @@
-FROM lethak/php:5.4
+FROM lethak/php:7.2
 MAINTAINER LethaK
 
-LABEL php.version=5.4
+LABEL php.version=7.2
 
 ARG DOCKER_TIMEZONE=UTC
 ARG DOCKER_LOCALE=fr_FR.UTF-8
@@ -31,7 +31,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     imagemagick \
     jpegoptim \
     poppler-utils \
-    openjdk-7-jre-headless
+    openjdk-7-jre-headless;
 
 # Configure locale for date, time & currency php functions
 # -----------------------------------------------------------------------------

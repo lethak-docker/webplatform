@@ -1,4 +1,4 @@
-# PHP 7.1 CLI Docker image
+# PHP 7.2 CLI Docker image
 
 This is a command-line image that can be used for your projects. All shell commands should be run from here.
 
@@ -6,7 +6,7 @@ Image is built from Debian jessie.
 
 Available software packages are:
 
-* PHP 7.1
+* PHP 7.2
 * ImageMagick 6.7
 * Composer
 * GIT
@@ -33,7 +33,7 @@ You can run the container with the docker run command :
 
 
    ``` sh
-        docker run lethak/php_cli:7.1
+        docker run lethak/php_cli:7.2
    ```
     
     
@@ -47,7 +47,7 @@ and the value of your host user id.
 Example : 
 
    ``` sh
-        docker run --user=$(id -u):$(id -g) lethak/php_cli:7.1
+        docker run --user=$(id -u):$(id -g) lethak/php_cli:7.2
    ```
 
 The site user uid and gid will then be replaced when container starts with your host user uid and gid.
@@ -87,7 +87,7 @@ and then define the SSH_AUTH_SOCK environment variable inside the container with
  
 
    ``` sh
-       docker run --user=$(id -u):$(id -g) -v "${SSH_AUTH_SOCK}:/ssh-agent:ro" -e "SSH_AUTH_SOCK=/ssh-agent" lethak/php_cli:7.1
+       docker run --user=$(id -u):$(id -g) -v "${SSH_AUTH_SOCK}:/ssh-agent:ro" -e "SSH_AUTH_SOCK=/ssh-agent" lethak/php_cli:7.2
    ```
    
 To check that your host ssh-agent has been correctly mounted into the container, enter the container and type: 

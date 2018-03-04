@@ -1,4 +1,4 @@
-# Apache/php 7.0 web server
+# Apache/php 7.2 web server
 
 Apache web server image to run your PHP project.
 
@@ -7,7 +7,7 @@ Image is built on Debian Jessie.
 Available software packages installed are:
 
 * Apache 2.4
-* PHP 7.0
+* PHP 7.2
 * ImageMagick 6.7
 * JAVA (OpenJDK 7)
 * Curl
@@ -52,7 +52,7 @@ You can run the container with the docker run command :
 
 
    ``` sh
-    docker run -p 80:80 -p 88:88 -p 82:82 lethak/apache:7.0
+    docker run -p 80:80 -p 88:88 -p 82:82 lethak/apache:7.2
    ```
 
 ## How to add a new Virtual Host
@@ -64,19 +64,19 @@ You can add new virtual hosts by adding it as volume in /etc/apache2/sites-avail
 Ex : 
 
    ``` sh
-    docker run -p 80:80 -p 88:88 -p 82:82 -v "005-myvhost.conf:/etc/apache2/sites-available/005-myvhost.conf" lethak/apache:7.0
+    docker run -p 80:80 -p 88:88 -p 82:82 -v "005-myvhost.conf:/etc/apache2/sites-available/005-myvhost.conf" lethak/apache:7.2
    ```
 
 ## How to override php.ini settings
 
-You can override php.ini settings provided in the image by mounting your own php.ini file in /etc/php/7.0/apache2/conf.d/
+You can override php.ini settings provided in the image by mounting your own php.ini file in /etc/php/7.2/apache2/conf.d/
 
 **Your php.ini filename must start with a number greater than 20 followed by '-' !**
 
 Ex : 
 
    ``` sh
-    docker run -p 80:80 -p 88:88 -p 82:82 -v "21-my_custom_php_conf.ini:/etc/php/7.0/apache2/conf.d/21-my_custom_php_conf.ini" lethak/apache:7.0
+    docker run -p 80:80 -p 88:88 -p 82:82 -v "21-my_custom_php_conf.ini:/etc/php/7.2/apache2/conf.d/21-my_custom_php_conf.ini" lethak/apache:7.2
    ```
    
 ## How to execute additional script at startup
@@ -88,6 +88,6 @@ In order to do so, you have to mount your own startup script (must be executable
 Ex : 
 
    ``` sh
-    docker run -p 80:80 -p 88:88 -p 82:82 -v "startup.sh:/run/startup.sh" lethak/apache:7.0
+    docker run -p 80:80 -p 88:88 -p 82:82 -v "startup.sh:/run/startup.sh" lethak/apache:7.2
    ```
    

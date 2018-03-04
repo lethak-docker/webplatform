@@ -1,7 +1,7 @@
-FROM lethak/php:7.0
+FROM lethak/php:7.2
 MAINTAINER LethaK
 LABEL nginx.version=1.12 \
-      php.version=7.0 \
+      php.version=7.2 \
       application.type=PHP-FPM
 
 ARG DOCKER_TIMEZONE=UTC
@@ -42,7 +42,7 @@ ENV LANGUAGE $DOCKER_LOCALE
 # -----------------------------------------------------------------------------
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     nginx \
-    php7.0-fpm
+    php7.2-fpm
 
 # Local user
 # => to try : run container with --user option to set root user id with host user id
@@ -68,19 +68,19 @@ RUN sed -i -e"s/worker_processes  1/worker_processes 4/" /etc/nginx/nginx.conf &
 # PHP config
 # -----------------------------------------------------------------------------
 # We set a unique service name for php-fpm to be able to use the same bootstrap script
-RUN sed -rie 's|user = www-data|user = site|g' /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -rie 's|listen.owner = www-data|listen.owner = site|g' /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -rie 's|\/run\/php\/php7.0-fpm.sock|\/run\/php\/php-fpm.sock|g' /etc/php/7.0/fpm/pool.d/www.conf && \
-    mv /etc/init.d/php7.0-fpm /etc/init.d/php-fpm
+RUN sed -rie 's|user = www-data|user = site|g' /etc/php/7.2/fpm/pool.d/www.conf && \
+    sed -rie 's|listen.owner = www-data|listen.owner = site|g' /etc/php/7.2/fpm/pool.d/www.conf && \
+    sed -rie 's|\/run\/php\/php7.2-fpm.sock|\/run\/php\/php-fpm.sock|g' /etc/php/7.2/fpm/pool.d/www.conf && \
+    mv /etc/init.d/php7.2-fpm /etc/init.d/php-fpm
 
 
 # Disable xdebug
-RUN rm /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+RUN rm /etc/php/7.2/fpm/conf.d/20-xdebug.ini
 
 # Custom PHP-FPM error log folder
 RUN mkdir /var/log/php/ && \
     chmod 755 -R /var/log/php/ && \
-    sed -rie 's|error_log = /var/log/php7.0-fpm.log|error_log = /var/log/php/php7.0-fpm.log|g' /etc/php/7.0/fpm/php-fpm.conf
+    sed -rie 's|error_log = /var/log/php7.2-fpm.log|error_log = /var/log/php/php7.2-fpm.log|g' /etc/php/7.2/fpm/php-fpm.conf
 
 # Vhost config
 # -----------------------------------------------------------------------------

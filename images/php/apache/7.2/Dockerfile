@@ -1,7 +1,7 @@
-FROM lethak/php:7.1
+FROM lethak/php:7.2
 MAINTAINER LethaK
 LABEL apache.version=2.4 \
-      php.version=7.1
+      php.version=7.2
 
 ARG DOCKER_TIMEZONE=UTC
 ARG DOCKER_LOCALE=fr_FR.UTF-8
