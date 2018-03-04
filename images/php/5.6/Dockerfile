@@ -10,7 +10,6 @@ RUN apt-get update && \
     curl \
     php5 \
     php5-readline \
-    php5-bcmath \
     php5-mysqlnd \
     php5-json \
     php5-xsl \
@@ -23,6 +22,7 @@ RUN apt-get update && \
     php5-memcached \
     php5-redis \
     php5-xdebug;
+#    php5-bcmath \ already included in php5
 
 # PHP config
 # -----------------------------------------------------------------------------
