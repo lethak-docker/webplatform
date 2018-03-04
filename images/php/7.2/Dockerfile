@@ -24,7 +24,6 @@ RUN apt-get update && \
     php7.2-json \
     php7.2-xsl \
     php7.2-intl \
-    php7.2-mcrypt \
     php7.2-curl \
     php7.2-imagick \
     php7.2-gd \
@@ -33,6 +32,7 @@ RUN apt-get update && \
     php7.2-redis \
     php7.2-xdebug \
     php7.2-mbstring;
+#    php7.2-mcrypt \
 
 # PHP config
 # -----------------------------------------------------------------------------
