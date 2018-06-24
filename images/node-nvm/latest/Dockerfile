@@ -93,7 +93,7 @@ RUN USER=site && \
 # Clear archives in apt cache folder
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-bvm/node_bootstrap.sh && \
+RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-nvm/node_bootstrap.sh && \
     chmod 755 /run/bootstrap.sh
 
 USER site:site
