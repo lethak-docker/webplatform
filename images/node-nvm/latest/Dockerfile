@@ -100,11 +100,11 @@ USER site:site
 WORKDIR /var/www/
 
 RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-RUN nvm install 6
-RUN nvm install 7
-RUN nvm install 8
-RUN nvm install 9
-RUN nvm install 10
-RUN nvm use 10
+RUN /home/site/.nvm/nvm install 6
+RUN /home/site/.nvm/nvm install 7
+RUN /home/site/.nvm/nvm install 8
+RUN /home/site/.nvm/nvm install 9
+RUN /home/site/.nvm/nvm install 10
+RUN /home/site/.nvm/nvm use 10
 
 CMD ["/run/bootstrap.sh"]
