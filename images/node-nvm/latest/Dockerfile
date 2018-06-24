@@ -1,6 +1,9 @@
 FROM debian:jessie
 MAINTAINER LethaK
 
+# Prevent dialog during apt install
+ENV DEBIAN_FRONTEND noninteractive
+
 # Base packages
 # -----------------------------------------------------------------------------
 RUN apt-get update && \
@@ -84,13 +87,6 @@ RUN USER=site && \
     mkdir -p /etc/fixuid && \
     printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 
-RUN USER=site && GROUP=site && curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-RUN nvm install 6
-RUN nvm install 7
-RUN nvm install 8
-RUN nvm install 9
-RUN nvm install 10
-RUN nvm use 10
 
 # -----------------------------------------------------------------------------
 
@@ -102,5 +98,13 @@ RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker
 
 USER site:site
 WORKDIR /var/www/
+
+RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+RUN nvm install 6
+RUN nvm install 7
+RUN nvm install 8
+RUN nvm install 9
+RUN nvm install 10
+RUN nvm use 10
 
 CMD ["/run/bootstrap.sh"]
