@@ -100,11 +100,13 @@ USER site:site
 WORKDIR /var/www/
 
 RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash && \
-/home/site/.nvm/nvm install 6 && \
-/home/site/.nvm/nvm install 7 && \
-/home/site/.nvm/nvm install 8 && \
-/home/site/.nvm/nvm install 9 && \
-/home/site/.nvm/nvm install 10 && \
-/home/site/.nvm/nvm use 10 ;
+export NVM_DIR="$HOME/.nvm" && \
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm install 6 && \
+nvm install 7 && \
+nvm install 8 && \
+nvm install 9 && \
+nvm install 10 && \
+nvm use 10 ;
 
 CMD ["/run/bootstrap.sh"]
