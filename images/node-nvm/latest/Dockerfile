@@ -99,12 +99,12 @@ RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker
 USER site:site
 WORKDIR /var/www/
 
-RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-RUN /home/site/.nvm/nvm install 6
-RUN /home/site/.nvm/nvm install 7
-RUN /home/site/.nvm/nvm install 8
-RUN /home/site/.nvm/nvm install 9
-RUN /home/site/.nvm/nvm install 10
-RUN /home/site/.nvm/nvm use 10
+RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash && \
+/home/site/.nvm/nvm install 6 && \
+/home/site/.nvm/nvm install 7 && \
+/home/site/.nvm/nvm install 8 && \
+/home/site/.nvm/nvm install 9 && \
+/home/site/.nvm/nvm install 10 && \
+/home/site/.nvm/nvm use 10 ;
 
 CMD ["/run/bootstrap.sh"]
