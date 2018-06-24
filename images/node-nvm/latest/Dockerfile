@@ -58,9 +58,9 @@ ENV LANGUAGE $DOCKER_LOCALE
 # Local user
 # -----------------------------------------------------------------------------
 RUN mkdir /tmp/profile && \
-    curl -s -o /tmp/profile/.bashrc_append https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/cli/profile/.bashrc_append && \
-    curl -s -o /tmp/profile/.gitconfig https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/cli/profile/.gitconfig && \
-    curl -s -o /tmp/profile/.vimrc_append https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/cli/profile/.vimrc_append
+    curl -s -o /tmp/profile/.bashrc_append https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-nvm/profile/.bashrc_append && \
+    curl -s -o /tmp/profile/.gitconfig https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-nvm/profile/.gitconfig && \
+    curl -s -o /tmp/profile/.vimrc_append https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-nvm/profile/.vimrc_append
 
 # nb: the 1000 used here for user id and group id is later on replaced by the code in bootstrap.sh...
 RUN addgroup --gid 1000 site && \
@@ -93,7 +93,7 @@ RUN USER=site && \
 # Clear archives in apt cache folder
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/cli/node_bootstrap.sh && \
+RUN curl -s -o /run/bootstrap.sh https://raw.githubusercontent.com/lethak-docker/webplatform/master/build_files/node-bvm/node_bootstrap.sh && \
     chmod 755 /run/bootstrap.sh
 
 USER site:site
@@ -102,6 +102,7 @@ WORKDIR /var/www/
 RUN curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash && \
 export NVM_DIR="$HOME/.nvm" && \
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
+touch "$NVM_DIR/use" && \
 nvm install 6 && \
 nvm install 7 && \
 nvm install 8 && \
