@@ -19,7 +19,6 @@ RUN apt-get update && \
     wget \
     curl \
     sudo \
-    nvm \
     git \
     cron \
     mysql-client \
@@ -31,12 +30,6 @@ RUN apt-get update && \
 # Clear archives in apt cache folder
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN nvm install 6
-RUN nvm install 7
-RUN nvm install 8
-RUN nvm install 9
-RUN nvm install 10
-RUN nvm use 10
 
 ENTRYPOINT ["/bin/bash"]
 
@@ -90,6 +83,14 @@ RUN USER=site && \
     chmod 4755 /usr/local/bin/fixuid && \
     mkdir -p /etc/fixuid && \
     printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
+
+RUN USER=site && GROUP=site && curl -L -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+RUN nvm install 6
+RUN nvm install 7
+RUN nvm install 8
+RUN nvm install 9
+RUN nvm install 10
+RUN nvm use 10
 
 # -----------------------------------------------------------------------------
 
