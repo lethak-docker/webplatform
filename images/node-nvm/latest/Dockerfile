@@ -14,7 +14,7 @@ RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 # PHP packages
 # -----------------------------------------------------------------------------
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    apt-get install -y \
     bash-completion \
     wget \
     curl \
